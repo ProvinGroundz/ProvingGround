@@ -34,7 +34,7 @@ public class Model implements IActions
 	private int bArmorClass, cArmorClass;
 	
 	//number attacks per round
-	private int bAttPerRound, cAttPerRound; 
+	private int bNAT, cNAT; 
 	
 	//resurrection modifier
 	private double resModifier;
@@ -57,14 +57,6 @@ public class Model implements IActions
 		
 	}
 	
-	// returns mean of base stats
-	public double meanBaseStats()
-	{
-		double mean = (this.strength+this.dexterity+this.twitch+this.intelligence+this.wisdom
-				+this.commonSense+this.spirituality+this.charisma+this.luck+this.constitution)/10.0;
-		return mean;
-	}
-
 	public String getCharClass() {
 		return charClass;
 	}
@@ -73,164 +65,164 @@ public class Model implements IActions
 		this.charClass = charClass;
 	}
 
-	public int getStrength() {
+	public int getSt() {
 		return strength;
 	}
 
-	public void setStrength(int strength) {
-		this.strength = strength;
+	public void modSt(int mod) {
+		this.strength += mod;
 	}
 
-	public int getDexterity() {
+	public int getDx() {
 		return dexterity;
 	}
 
-	public void setDexterity(int dexterity) {
-		this.dexterity = dexterity;
+	public void modDexterity(int mod) {
+		this.dexterity += mod;
 	}
 
-	public int getTwitch() {
+	public int getTw() {
 		return twitch;
 	}
 
-	public void setTwitch(int twitch) {
-		this.twitch = twitch;
+	public void modTw(int mod) {
+		this.twitch += mod;
 	}
 
-	public int getConstitution() {
+	public int getCn() {
 		return constitution;
 	}
 
-	public void setConstitution(int constitution) {
+	public void modCn(int constitution) {
 		this.constitution = constitution;
 	}
 
-	public int getIntelligence() {
+	public int getIn() {
 		return intelligence;
 	}
 
-	public void setIntelligence(int intelligence) {
-		this.intelligence = intelligence;
+	public void modIn(int mod) {
+		this.intelligence += mod;
 	}
 
-	public int getWisdom() {
+	public int getWi() {
 		return wisdom;
 	}
 
-	public void setWisdom(int wisdom) {
-		this.wisdom = wisdom;
+	public void modWi(int mod) {
+		this.wisdom += mod;
 	}
 
-	public int getCommonSense() {
+	public int getCs() {
 		return commonSense;
 	}
 
-	public void setCommonSense(int commonSense) {
-		this.commonSense = commonSense;
+	public void modCs(int mod) {
+		this.commonSense += mod;
 	}
 
-	public int getSpirituality() {
+	public int getSp() {
 		return spirituality;
 	}
 
-	public void setSpirituality(int spirituality) {
-		this.spirituality = spirituality;
+	public void modSp(int mod) {
+		this.spirituality += mod;
 	}
 
-	public int getCharisma() {
+	public int getCh() {
 		return charisma;
 	}
 
-	public void setCharisma(int charisma) {
-		this.charisma = charisma;
+	public void modCh(int mod) {
+		this.charisma += mod;
 	}
 
-	public int getLuck() {
+	public int getLk() {
 		return luck;
 	}
 
-	public void setLuck(int luck) {
-		this.luck = luck;
+	public void modLk(int mod) {
+		this.luck += mod;
 	}
 
-	public int getcStrength() {
+	public int getcSt() {
 		return cStrength;
 	}
 
-	public void setcStrength(int cStrength) {
-		this.cStrength = cStrength;
+	public void modcSt(int mod) {
+		this.cStrength += mod;
 	}
 
-	public int getcDexterity() {
+	public int getcDx() {
 		return cDexterity;
 	}
 
-	public void setcDexterity(int cDexterity) {
-		this.cDexterity = cDexterity;
+	public void modcDx(int mod) {
+		this.cDexterity += mod;
 	}
 
-	public int getcTwitch() {
+	public int getcTw() {
 		return cTwitch;
 	}
 
-	public void setcTwitch(int cTwitch) {
-		this.cTwitch = cTwitch;
+	public void modcTw(int mod) {
+		this.cTwitch += mod;
 	}
 
-	public int getcConstitution() {
+	public int getcCn() {
 		return cConstitution;
 	}
 
-	public void setcConstitution(int cConstitution) {
-		this.cConstitution = cConstitution;
+	public void modcCn(int mod) {
+		this.cConstitution += mod;
 	}
 
-	public int getcIntelligence() {
+	public int getcIn() {
 		return cIntelligence;
 	}
 
-	public void setcIntelligence(int cIntelligence) {
-		this.cIntelligence = cIntelligence;
+	public void modcIn(int mod) {
+		this.cIntelligence += mod;
 	}
 
-	public int getcWisdom() {
+	public int getcWi() {
 		return cWisdom;
 	}
 
-	public void setcWisdom(int cWisdom) {
-		this.cWisdom = cWisdom;
+	public void modcWi(int mod) {
+		this.cWisdom += mod;
 	}
 
-	public int getcCommonSense() {
+	public int getcCs() {
 		return cCommonSense;
 	}
 
-	public void setcCommonSense(int cCommonSense) {
-		this.cCommonSense = cCommonSense;
+	public void modcCs(int mod) {
+		this.cCommonSense += mod;
 	}
 
-	public int getcSpirituality() {
+	public int getcSp() {
 		return cSpirituality;
 	}
 
-	public void setcSpirituality(int cSpirituality) {
-		this.cSpirituality = cSpirituality;
+	public void modcSp(int mod) {
+		this.cSpirituality += mod;
 	}
 
-	public int getcCharisma() {
+	public int getcCh() {
 		return cCharisma;
 	}
 
-	public void setcCharisma(int cCharisma) {
-		this.cCharisma = cCharisma;
+	public void modcCh(int mod) {
+		this.cCharisma += mod;
 	}
 
-	public int getcLuck() {
+	public int getcLk() {
 		return cLuck;
 	}
 
-	public void setcLuck(int cLuck) {
-		this.cLuck = cLuck;
+	public void modcLk(int mod) {
+		this.cLuck += mod;
 	}
 
 	public String getName() {
@@ -277,8 +269,8 @@ public class Model implements IActions
 		return age;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public void modAge(int mod) {
+		this.age += mod;
 	}
 
 	public int getStatus() {
@@ -289,20 +281,20 @@ public class Model implements IActions
 		this.status = status;
 	}
 
-	public int getLevel() {
+	public int getLvl() {
 		return level;
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setLevel(int mod) {
+		this.level += mod;
 	}
 
 	public int getXp() {
 		return xp;
 	}
 
-	public void setXp(int xp) {
-		this.xp = xp;
+	public void modXp(int mod) {
+		this.xp += mod;
 	}
 
 	public int getRank() {
@@ -317,128 +309,128 @@ public class Model implements IActions
 		return gold;
 	}
 
-	public void setGold(int gold) {
-		this.gold = gold;
+	public void modGold(int mod) {
+		this.gold += mod;
 	}
 
 	public int getcHit() {
 		return cHit;
 	}
 
-	public void setcHit(int cHit) {
-		this.cHit = cHit;
+	public void modcHit(int mod) {
+		this.cHit += mod;
 	}
 
 	public int getmHit() {
 		return mHit;
 	}
 
-	public void setmHit(int mHit) {
-		this.mHit = mHit;
+	public void modmHit(int mod) {
+		this.mHit += mod;
 	}
 
 	public int getcMystic() {
 		return cMystic;
 	}
 
-	public void setcMystic(int cMystic) {
-		this.cMystic = cMystic;
+	public void modcMystic(int mod) {
+		this.cMystic += mod;
 	}
 
 	public int getmMystic() {
 		return mMystic;
 	}
 
-	public void setmMystic(int mMystic) {
-		this.mMystic = mMystic;
+	public void modmMystic(int mod) {
+		this.mMystic += mod;
 	}
 
 	public int getcSkill() {
 		return cSkill;
 	}
 
-	public void setcSkill(int cSkill) {
-		this.cSkill = cSkill;
+	public void modcSkill(int mod) {
+		this.cSkill += mod;
 	}
 
 	public int getmSkill() {
 		return mSkill;
 	}
 
-	public void setmSkill(int mSkill) {
-		this.mSkill = mSkill;
+	public void modmSkill(int mod) {
+		this.mSkill += mod;
 	}
 
 	public int getcPrayer() {
 		return cPrayer;
 	}
 
-	public void setcPrayer(int cPrayer) {
-		this.cPrayer = cPrayer;
+	public void modcPrayer(int mod) {
+		this.cPrayer += mod;
 	}
 
 	public int getmPrayer() {
 		return mPrayer;
 	}
 
-	public void setmPrayer(int mPrayer) {
-		this.mPrayer = mPrayer;
+	public void modmPrayer(int mod) {
+		this.mPrayer += mod;
 	}
 
 	public int getcBard() {
 		return cBard;
 	}
 
-	public void setcBard(int cBard) {
-		this.cBard = cBard;
+	public void modcBard(int mod) {
+		this.cBard += mod;
 	}
 
 	public int getmBard() {
 		return mBard;
 	}
 
-	public void setmBard(int mBard) {
-		this.mBard = mBard;
+	public void modmBard(int mod) {
+		this.mBard += mod;
 	}
 
-	public int getbArmorClass() {
+	public int getbAC() {
 		return bArmorClass;
 	}
 
-	public void setbArmorClass(int bArmorClass) {
-		this.bArmorClass = bArmorClass;
+	public void modbAC(int mod) {
+		this.bArmorClass += mod;
 	}
 
-	public int getcArmorClass() {
+	public int getcAC() {
 		return cArmorClass;
 	}
 
-	public void setcArmorClass(int cArmorClass) {
-		this.cArmorClass = cArmorClass;
+	public void modcAC(int mod) {
+		this.cArmorClass += mod;
 	}
 
-	public int getbAttPerRound() {
-		return bAttPerRound;
+	public int getbNAT() {
+		return bNAT;
 	}
 
-	public void setbAttPerRound(int bAttPerRound) {
-		this.bAttPerRound = bAttPerRound;
+	public void modbNAT(int mod) {
+		this.bNAT += mod;
 	}
 
-	public int getcAttPerRound() {
-		return cAttPerRound;
+	public int getcNAT() {
+		return cNAT;
 	}
 
-	public void setcAttPerRound(int cAttPerRound) {
-		this.cAttPerRound = cAttPerRound;
+	public void modcNAT(int mod) {
+		this.cNAT += mod;
 	}
 
-	public double getResModifier() {
+	public double getResMod() {
 		return resModifier;
 	}
 
-	public void setResModifier(double resModifier) {
-		this.resModifier = resModifier;
+	public void modResMod(double mod) {
+		this.resModifier += mod;
 	}
 
 }

@@ -143,12 +143,12 @@ class JSONReader
 			/* iterate through objects in profession */
 			for (JsonObject obj : x) {
 				/* object contains chosen charclass */
-				if (obj.containsKey(MainFSM.m.getCharClass())) {
+				if (obj.containsKey(CharCreationFSM.charClass)) {
 					/*
 					 * convert all JsonValues into Strings -- trim quotes and
 					 * check length isn't ridiculous
 					 */
-					for (JsonValue v : obj.getJsonArray(MainFSM.m.getCharClass())) {
+					for (JsonValue v : obj.getJsonArray(CharCreationFSM.charClass)) {
 						String s = v.toString();
 						if (s.length() > 25)
 							throw new Exception(

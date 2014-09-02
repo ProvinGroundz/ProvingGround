@@ -42,19 +42,28 @@ class CharCreationFSM
 	private int prevNumRolls10;
 	
 	
+	static protected int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
+	//other attributes
+	static protected String name, race, gender, alignment, profession, charClass; 
+	static protected int age, status, level, xp, rank, gold;
+	static protected int mHit,mMystic, mSkill, mPrayer, mBard, commerce, rapport, recovery;
+	//armor class b=base, c=current
+	static protected int bArmorClass;
+	//number attacks per round
+	static protected int bNAT; 
+	//resurrection modifier
+	static protected double resModifier;
 	// set up event handlers for user input sections
 	private EventHandler<KeyEvent> keyEventAge = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent ke) {
 //			System.out.println(ke.getCode()+" state7");
 			if (ke.getCode().equals(KeyCode.ENTER)) {
-				// System.out.println("working!!");
-				// regex
 				boolean b = Pattern.matches("[0-9]{2}", txtField.getText());
 				if (b) {
-					int age = Integer.parseInt(txtField.getText());
-					if (age >= 17 && age <= 88) {
+					int tempAge = Integer.parseInt(txtField.getText());
+					if (tempAge >= 17 && tempAge <= 88) {
 						inputLayout.setVisible(false);
-						MainFSM.m.setAge(age);
+						age = tempAge;
 						checkState(Game.state=8);
 					}
 				} else {
@@ -78,7 +87,7 @@ class CharCreationFSM
 				boolean b = Pattern.matches("[1-9a-zA-Z]{1,14}",
 						txtField.getText());
 				if (b) {
-					MainFSM.m.setName(txtField.getText());
+					name = txtField.getText();
 					state9();
 				}
 			}
@@ -100,13 +109,13 @@ class CharCreationFSM
 	/* choose race */
 	public void begin() {
 		Game.state = 2;
-		MainFSM.m = new Model();
+		
 
 		/* iterate through validChoices to check if any equals userInput */
 		for (int i = 0; i < Game.validChoices.size(); i++) {
 			if (Game.userInput.equals(Game.validChoices.get(i))) {
 				// System.out.println(fullOptions.get(i));
-				MainFSM.m.setRace(fullOptions.get(i));
+				race = fullOptions.get(i);
 				clear();checkState(Game.state = 3);
 				return;
 			} else if (Game.userInput.equals("escape")) {
@@ -124,12 +133,11 @@ class CharCreationFSM
 		/* iterate through validChoices to check if any equals userInput */
 		for (int i = 0; i < Game.validChoices.size(); i++) {
 			if (Game.userInput.equals(Game.validChoices.get(i))) {
-				//System.out.println(fullOptions.get(i));
-				MainFSM.m.setGender(fullOptions.get(i));
+				gender = fullOptions.get(i);
 				clear();checkState(Game.state=4);
 				return;
 			} else if (Game.userInput.equals("escape")) {
-				clear();MainFSM.m = new Model();
+				clear();
 				checkState(Game.state=2);
 				return;
 			}
@@ -145,7 +153,7 @@ class CharCreationFSM
 		for (int i = 0; i < Game.validChoices.size(); i++) {
 			if (Game.userInput.equals(Game.validChoices.get(i))) {
 				// System.out.println(fullOptions.get(i));
-				MainFSM.m.setCharClass(fullOptions.get(i));
+				charClass = fullOptions.get(i);
 				clear();checkState(Game.state=5); 
 				return;
 			} else if (Game.userInput.equals("escape")) {
@@ -164,8 +172,7 @@ class CharCreationFSM
 		/* iterate through validChoices to check if any equals userInput */
 		for (int i = 0; i < Game.validChoices.size(); i++) {
 			if (Game.userInput.equals(Game.validChoices.get(i))) {
-				// System.out.println(fullOptions.get(i));
-				MainFSM.m.setProfession(fullOptions.get(i));
+				profession = fullOptions.get(i);
 				clear();checkState(Game.state=6);
 				return;
 			} else if (Game.userInput.equals("escape")) {
@@ -185,7 +192,7 @@ class CharCreationFSM
 		for (int i = 0; i < Game.validChoices.size(); i++) {
 			if (Game.userInput.equals(Game.validChoices.get(i))) {
 				// System.out.println(fullOptions.get(i));
-				MainFSM.m.setAlignment(fullOptions.get(i));
+				alignment = fullOptions.get(i);
 				clear();checkState(Game.state=7);
 				return;
 			} else if (Game.userInput.equals("escape")) {
@@ -265,11 +272,11 @@ class CharCreationFSM
 				.format("\n\n# of rolls left:%3s\n\n%-12s%-10s%-10s\n%-12s%-10s%-10s\n"
 						+ "%-12s%-10s%-10s\n%-12s%-10s%-10s\n%-12s%-10s\n\n(K)eep\n(R)eroll\n\n(Esc)ape",
 						numRolls9, "Physical", "Mental", "Ineffable",
-						"ST " + MainFSM.m.getcStrength(), "IN " + MainFSM.m.getcIntelligence(),
-						"SP " + MainFSM.m.getcSpirituality(), "TW " + MainFSM.m.getcTwitch(),
-						"WI " + MainFSM.m.getcWisdom(), "CH " + MainFSM.m.getcCharisma(), "DX "
-								+ MainFSM.m.getcDexterity(), "CS " + MainFSM.m.getcCommonSense(),
-						"LK " + MainFSM.m.getcLuck(), "CN " + MainFSM.m.getcConstitution(), "AVG "+MainFSM.m.meanBaseStats());
+						"ST " + strength, "IN " + intelligence,
+						"SP " + spirituality, "TW " + twitch,
+						"WI " + wisdom, "CH " + charisma, "DX "
+						+ dexterity, "CS " + commonSense,
+						"LK " + luck, "CN " + constitution, "AVG "+ meanBaseStats());
 		Game.textDescr.appendText(output);
 	}
 	
@@ -298,11 +305,11 @@ class CharCreationFSM
 		Game.textDescr.setText("..and ye shall begin with these. . .");
 		rollSecondaryStats(3, 3, 2, -1);
 		applySecondaryBonuses();
-		Model m = MainFSM.m;
+		
 		String output = String.format("\n\n# of rolls left:%3s\n\n%-15s%-3s%-15s%-3s\n%-15s%-3s\n%-15s%-3s"
 				+ "\n%-15s%-3s%-15s%-3s\n\n%22s\n\n(K)eep\n(R)eroll\n\n(Esc)ape",numRolls10,
-				"Mystic Points",m.getmMystic(),"Hit Points",m.getmHit(),"Prayer Points",m.getmPrayer(),"Skill Points",m.getmSkill(),
-				"Bard Points",m.getmBard(),"Gold Pieces",m.getGold(),"Armor Class "+m.getcArmorClass());
+				"Mystic Points", mMystic,"Hit Points", mHit,"Prayer Points", mPrayer,"Skill Points", mSkill,
+				"Bard Points", mBard,"Gold Pieces", gold,"Armor Class "+ bArmorClass);
 		Game.textDescr.appendText(output);
 	}
 	
@@ -312,7 +319,7 @@ class CharCreationFSM
 		Game.state = 11;
 		Game.validChoices.add("escape");Game.validChoices.add("c");Game.validChoices.add("s");
 		Game.validChoices.add("h");Game.validChoices.add("i");Game.validChoices.add("p");
-		Model m = MainFSM.m;
+	
 		
 		switch (Game.userInput) {
 		case "c": 
@@ -335,21 +342,33 @@ class CharCreationFSM
 		}
 		
 		String output = String
-				.format("%s,Lvl%-4s %s %s\n\n%s yr old %s with %2s GP\n%s Class, %s\n\n"
-						+ "Exp Pts %s/%s %s\n\n%-12s%-10s%-10s\n%-12s%-10s%-10s\n"
-						+ "%-12s%-10s%-10s\n%-12s%-10s%-10s\n%-12s\n\n"
-						+ "%-12s/%2s%-12s/%2s\n%-12s/%2s%-12s/%2s\n%-12s/%2s%-15s\n%-12s/%2s%-20s"
+				.format("%s,Lvl%-4d %s %s"
+						+ "\n\n%d yr old %s with %3d GP"
+						+ "\n%s Class, %s"
+						+ "\n\nExp Pts %d%s %s"
+						+ "\n\n%-12s%-10s%-10s"
+						+ "\n%-12s%-10s%-10s"
+						+ "\n%-12s%-10s%-10s"
+						+ "\n%-12s%-10s%-10s"
+						+ "\n%-12s"
+						+ "\n\n%-12s s%-12s"
+						+ "\n%-12s %-12s"
+						+ "\n%-12s %-15s"
+						+ "\n%-12s %-20s"
 						+ "\n\n(S)hare/(H)oard Gold\n(I)tems\n(Esc)ape\n(C)ontinue",
-						m.getName(),m.getLevel(),m.getRace(),m.getProfession(),m.getAge(),
-						m.getGender(),"XX",m.getCharClass(),m.getAlignment(),1000,1000,
-						m.getStatus(),"Physical","Mental","Ineffable","ST "+m.getcStrength(),
-						"IN "+m.getcIntelligence(),"SP "+m.getcSpirituality(),"TW "+m.getcTwitch(),
-						"WI "+m.getcWisdom(),"CH "+m.getcCharisma(),"DX "+m.getcDexterity(),
-						"CS "+m.getcCommonSense(),"LK "+m.getcLuck(),"CN "+m.getcConstitution(),
-						"Mystic Pts "+m.getcMystic(),m.getmMystic(),"Hit Pts "+m.getcHit(),m.getmHit(),
-						"Prayer Pts "+m.getcPrayer(),m.getmPrayer(), "NAT "+0,0,
-						"Skill Pts "+m.getcSkill(),m.getmSkill(),"Armor Class "+m.getcArmorClass(),
-						"Bard Pts "+m.getcBard(),m.getmBard(),"Resurrect Mod "+m.getResModifier()+"%");
+						name, level, race, profession, 
+						age, gender, gold,
+						charClass,alignment,
+						xp,"/1000",status, 
+						"Physical", "Mental", "Ineffable", 
+						"ST "+ strength, "IN " + intelligence,"SP " + spirituality, 
+						"TW " + twitch, "WI "+ wisdom, "CH " + charisma, 
+						"DX " + dexterity, "CS " + commonSense, "LK " + luck,
+						"CN " + constitution,
+						"Mystic Pts " + mMystic, "Hit Pts " + mHit,
+						"Prayer Pts " + mPrayer, "NAT " + bNAT,
+						"Skill Pts "+ mSkill, "Armor Class "+ bArmorClass,
+						"Bard Pts "+ mBard, "Resurrect Mod " + resModifier+"%");
 		Game.textDescr.setText(output);
 	}
 	
@@ -449,72 +468,42 @@ class CharCreationFSM
 	private void rollBaseStats(int numOfDice,int numOfSides, int modifier)
 	{
 		//rolls for base stats
-		MainFSM.m.setStrength(Const.rollDice(numOfDice,numOfSides,modifier));
-//		System.out.println("roll base stats  "+MainFSM.m.getStrength());
-		MainFSM.m.setDexterity(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setTwitch(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setIntelligence(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setWisdom(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setCommonSense(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setSpirituality(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setCharisma(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setLuck(Const.rollDice(numOfDice, numOfSides,modifier));
-		MainFSM.m.setConstitution(Const.rollDice(numOfDice, numOfSides,modifier));
-		
-		//sets current stats to base stats
-		MainFSM.m.setcStrength(MainFSM.m.getStrength());
-		MainFSM.m.setcDexterity(MainFSM.m.getDexterity());
-		MainFSM.m.setcTwitch(MainFSM.m.getTwitch());
-		MainFSM.m.setcIntelligence(MainFSM.m.getIntelligence());
-		MainFSM.m.setcWisdom(MainFSM.m.getWisdom());
-		MainFSM.m.setcCommonSense(MainFSM.m.getCommonSense());
-		MainFSM.m.setcSpirituality(MainFSM.m.getSpirituality());
-		MainFSM.m.setcCharisma(MainFSM.m.getCharisma());
-		MainFSM.m.setcLuck(MainFSM.m.getLuck());
-		MainFSM.m.setcConstitution(MainFSM.m.getConstitution());
-		
+		strength = Const.rollDice(numOfDice,numOfSides,modifier);
+		dexterity = Const.rollDice(numOfDice, numOfSides,modifier);
+		twitch  = Const.rollDice(numOfDice, numOfSides,modifier);
+		intelligence = Const.rollDice(numOfDice, numOfSides,modifier);
+		wisdom = Const.rollDice(numOfDice, numOfSides,modifier);
+		commonSense = Const.rollDice(numOfDice, numOfSides,modifier);
+		spirituality = Const.rollDice(numOfDice, numOfSides,modifier);
+		charisma = Const.rollDice(numOfDice, numOfSides,modifier);
+		luck = Const.rollDice(numOfDice, numOfSides,modifier);
+		constitution = Const.rollDice(numOfDice, numOfSides,modifier);
 	}
 	
 	// determines base secondary stats
 	private void rollSecondaryStats(int base, int numOfDice, int numOfSides, int modifier)
 	{
-		Model m = MainFSM.m;
 		
-//		m.setcArmorClass(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		m.setmHit(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		m.setmPrayer(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		m.setmSkill(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		m.setmBard(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		m.setmMystic(SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier));
-		// gold handled differently
-		m.setGold(Const.rollDice(2,3));
-		
-		// set current to maximum for now
-//		m.setbArmorClass(m.getcArmorClass());
-		m.setcHit(m.getmHit());
-		m.setcPrayer(m.getmPrayer());
-		m.setcSkill(m.getmSkill());
-		m.setcBard(m.getmBard());
-		m.setcMystic(m.getmMystic());
+		mHit = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
+		mPrayer = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
+		mSkill = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
+		mBard = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
+		mMystic = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
+		gold = Const.rollDice(2,3);
 	}
 	
 	// adds bonuses (bonus.json) to ten base stats
 	private void applyBaseBonuses()
 	{		
 		ArrayList<BonusWrapper> bonuses = MainFSM.bonuses; 
-		String race = MainFSM.m.getRace();
-		String gender = MainFSM.m.getGender();
-		String profession = MainFSM.m.getProfession();
-		String alignment = MainFSM.m.getAlignment();
-		int age = MainFSM.m.getAge();
-		Model m = MainFSM.m;
+		int tempAge = age;
 		
 		//set age for bonus application
-		if(age<=24)age=24;
-		else if(age<=35)age=35;
-		else if(age<=49)age=49;
-		else if(age<=69)age=69;
-		else if(age<=88)age=88;
+		if(age<=24)tempAge=24;
+		else if(age<=35)tempAge=35;
+		else if(age<=49)tempAge=49;
+		else if(age<=69)tempAge=69;
+		else if(age<=88)tempAge=88;
 		
 		// iterate through list of wrappers
 		for(BonusWrapper bw : bonuses)
@@ -522,17 +511,17 @@ class CharCreationFSM
 			// get "name" of wrapper
 			String name=bw.getName();
 			// String version of age for easy comparison
-			String ageStr = String.valueOf(age);
+			String ageStr = String.valueOf(tempAge);
 			
 			// if any wrapper's name matches a user choice, then apply that wrapper's bonuses
 			if(name.equals(race)||name.equals(gender)||name.equals(profession)||name.equals(alignment)||name.equals(ageStr))
 			{
-				// set bonuses using cXXXX. don't modify base 
-				m.setcStrength(m.getcStrength()+bw.getSt());m.setcDexterity(m.getcDexterity()+bw.getDx());
-				m.setcTwitch(m.getcTwitch()+bw.getTw());m.setcIntelligence(m.getcIntelligence()+bw.getIn());
-				m.setcWisdom(m.getcWisdom()+bw.getWi());m.setcCommonSense(m.getcCommonSense()+bw.getCs());
-				m.setcSpirituality(m.getcSpirituality()+bw.getSp());m.setcCharisma(m.getcCharisma()+bw.getCh());
-				m.setcLuck(m.getcLuck()+bw.getLk());m.setcConstitution(m.getcConstitution()+bw.getCn());
+				// add bonuses to base stats 
+				strength += bw.getSt(); dexterity += bw.getDx();
+				twitch += bw.getTw(); intelligence += bw.getIn();
+				wisdom += bw.getWi(); commonSense += bw.getCs();
+				spirituality += bw.getSp(); charisma += bw.getCh();
+				luck += bw.getLk(); constitution += bw.getCn();
 			}
 		}
 
@@ -543,20 +532,14 @@ class CharCreationFSM
 	{		
 		ArrayList<BonusWrapper> bonuses = MainFSM.bonuses; 
 		ArrayList<RangeWrapper> rangeBonuses = MainFSM.rangeBonuses; 
-		String race = MainFSM.m.getRace();
-		String gender = MainFSM.m.getGender();
-		String profession = MainFSM.m.getProfession();
-		String alignment = MainFSM.m.getAlignment();
-		int age = MainFSM.m.getAge();
-		Model m = MainFSM.m;
-		m.setcArmorClass(m.getbArmorClass());
+		int tempAge = age;
 		
 		//set age for bonus application
-		if(age<=24)age=24;
-		else if(age<=35)age=35;
-		else if(age<=49)age=49;
-		else if(age<=69)age=69;
-		else if(age<=88)age=88;
+		if(age<=24)tempAge=24;
+		else if(age<=35)tempAge=35;
+		else if(age<=49)tempAge=49;
+		else if(age<=69)tempAge=69;
+		else if(age<=88)tempAge=88;
 		
 		// iterate through list of wrappers
 		for(BonusWrapper bw : bonuses)
@@ -564,16 +547,16 @@ class CharCreationFSM
 			// get "name" of wrapper
 			String name=bw.getName();
 			// String version of age for easy comparison
-			String ageStr = String.valueOf(age);
+			String ageStr = String.valueOf(tempAge);
 			
 			// if any wrapper's name matches a user choice, then apply that wrapper's bonuses
 			if(name.equals(race)||name.equals(gender)||name.equals(profession)||name.equals(alignment)||name.equals(ageStr))
 			{
 				// set bonuses using mXXXX, current will equal base for now
-				m.setcArmorClass(m.getcArmorClass()+bw.getAc());m.setmHit(m.getmHit()+bw.getHit());
-				m.setmMystic(m.getmMystic()+bw.getMystic());m.setmPrayer(m.getmPrayer()+bw.getPrayer());
-				m.setmSkill(m.getmSkill()+bw.getSkill());m.setmBard(m.getmBard()+bw.getBard());
-				m.setGold(m.getGold()+bw.getGold());
+				bArmorClass += bw.getAc(); mHit += bw.getHit();
+				mMystic += bw.getMystic(); mPrayer += bw.getPrayer();
+				mSkill += bw.getSkill(); mBard += bw.getBard();
+				gold += bw.getGold();
 			}
 //			System.out.println(m.getcArmorClass());
 			// consider adding AC/GOLD bonuses to separate ArrayLists for speed in next steps
@@ -588,18 +571,17 @@ class CharCreationFSM
 					// level section
 					if(rw.getName().equals("Level"))
 					{
-						int level = m.getLevel();
 						// match found
 						if(level>=rw.getLower() && level<=rw.getUpper())
-							m.setcArmorClass(m.getcArmorClass()+rw.getBonus());
+							bArmorClass += rw.getBonus();
 					}
 					// TW+DX section
 					else if(rw.getName().equals("TW+DX"))
 					{
-						int sum = m.getcTwitch()+m.getcDexterity();
+						int sum = twitch + dexterity;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setcArmorClass(m.getcArmorClass()+rw.getBonus());
+							bArmorClass += rw.getBonus();
 					}
 //					System.out.println(m.getcArmorClass());
 					break;
@@ -607,113 +589,112 @@ class CharCreationFSM
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setGold(m.getGold()+rw.getBonus());
+							gold += rw.getBonus();
 					}
 					// CS+CH section
 					else if(rw.getName().equals("CS+CH"))
 					{
-						int sum = m.getcCommonSense()+m.getcCharisma();
+						int sum = commonSense + charisma;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setGold(m.getGold()+rw.getBonus());
+							gold += rw.getBonus();
 					}
 					break;
 				case "Hit":
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setmHit(m.getmHit()+rw.getBonus());
+							mHit += rw.getBonus();
 					}
 					// CN section
 					else if(rw.getName().equals("CN"))
 					{
-						int CN = m.getcConstitution();
 						// match found
-						if(CN>=rw.getLower() && CN<=rw.getUpper())
-							m.setmHit(m.getmHit()+rw.getBonus());
+						if(constitution>=rw.getLower() && constitution<=rw.getUpper())
+							mHit += rw.getBonus();
 					}
 					break;
 				case "Mystic":
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setmMystic(m.getmMystic()+rw.getBonus());
+							mMystic += rw.getBonus();
 					}
 					// IN+CS section
 					else if(rw.getName().equals("IN+CS"))
 					{
-						int sum = m.getcIntelligence()+m.getcCommonSense();
+						int sum =intelligence + commonSense;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setmMystic(m.getmMystic()+rw.getBonus());
+							mMystic += rw.getBonus();
 					}
 					break;
 				case "Prayer":
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setmPrayer(m.getmPrayer()+rw.getBonus());
+							mPrayer += rw.getBonus();
 					}
 					// WI+SP section
 					else if(rw.getName().equals("WI+SP"))
 					{
-						int sum = m.getcWisdom()+m.getcSpirituality();
+						int sum = wisdom + spirituality;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setmPrayer(m.getmPrayer()+rw.getBonus());
+							mPrayer += rw.getBonus();
 					}
 					break;
 				case "Skill":
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setmSkill(m.getmSkill()+rw.getBonus());
+							mSkill += rw.getBonus();
 					}
 					// DX+CS section
 					else if(rw.getName().equals("DX+CS"))
 					{
-						int sum = m.getcDexterity()+m.getcCommonSense();
+						int sum = dexterity + commonSense;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setmSkill(m.getmSkill()+rw.getBonus());
+							mSkill += rw.getBonus();
 					}
 					break;
 				case "Bard":
 					// LK section
 					if(rw.getName().equals("LK"))
 					{
-						int luck = m.getcLuck();
 						// match found
 						if(luck>=rw.getLower() && luck<=rw.getUpper())
-							m.setmBard(m.getmBard()+rw.getBonus());
+							mBard += rw.getBonus();
 					}
 					// DX+CH section
 					else if(rw.getName().equals("DX+CS"))
 					{
-						int sum = m.getcDexterity()+m.getcCharisma();
+						int sum = dexterity + charisma;
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
-							m.setmBard(m.getmBard()+rw.getBonus());
+							mBard += rw.getBonus();
 					}
 					break;
 				default:break;
 			}
 		}
 	}
-
+	// returns mean of base stats
+	private double meanBaseStats()
+	{
+		double mean = (strength + dexterity + twitch + intelligence + wisdom
+				+ commonSense + spirituality + charisma + luck + constitution)/10.0;
+		return mean;
+	}
 }
