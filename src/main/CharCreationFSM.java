@@ -46,7 +46,8 @@ class CharCreationFSM
 	//other attributes
 	static protected String name, race, gender, alignment, profession, charClass; 
 	static protected int age, status, level, xp, rank, gold;
-	static protected int mHit,mMystic, mSkill, mPrayer, mBard, commerce, rapport, recovery;
+	static protected int mHit,mMystic, mSkill, mPrayer, mBard;
+	static protected int magicResist, commerce, rapport, recovery;
 	//armor class b=base, c=current
 	static protected int bArmorClass;
 	//number attacks per round
@@ -684,6 +685,70 @@ class CharCreationFSM
 						// match found
 						if(sum>=rw.getLower() && sum<=rw.getUpper())
 							mBard += rw.getBonus();
+					}
+					break;
+				case "Magic Resist":
+					// CN section
+					if(rw.getName().equals("CN"))
+					{
+						// CN section
+						if(constitution>=rw.getLower() && constitution<=rw.getUpper())
+							magicResist += rw.getBonus();
+					}
+					// SP section
+					else if(rw.getName().equals("SP"))
+					{
+						// match found
+						if(spirituality>=rw.getLower() && spirituality<=rw.getUpper())
+							magicResist += rw.getBonus();
+					}
+					break;
+				case "Commerce":
+					// CH section
+					if(rw.getName().equals("CH"))
+					{
+						// CH section
+						if(charisma>=rw.getLower() && charisma<=rw.getUpper())
+							commerce += rw.getBonus();
+					}
+					// CS section
+					else if(rw.getName().equals("CS"))
+					{
+						// match found
+						if(commonSense>=rw.getLower() && commonSense<=rw.getUpper())
+							commerce += rw.getBonus();
+					}
+					break;
+				case "Rapport":
+					// CH section
+					if(rw.getName().equals("CH"))
+					{
+						// CN section
+						if(charisma>=rw.getLower() && charisma<=rw.getUpper())
+							rapport += rw.getBonus();
+					}
+					// WI section
+					else if(rw.getName().equals("WI"))
+					{
+						// match found
+						if(wisdom>=rw.getLower() && wisdom<=rw.getUpper())
+							rapport += rw.getBonus();
+					}
+					break;
+				case "Recovery":
+					// CN section
+					if(rw.getName().equals("CN"))
+					{
+						// CN section
+						if(constitution>=rw.getLower() && constitution<=rw.getUpper())
+							recovery += rw.getBonus();
+					}
+					// SP section
+					else if(rw.getName().equals("SP"))
+					{
+						// match found
+						if(spirituality>=rw.getLower() && spirituality<=rw.getUpper())
+							recovery += rw.getBonus();
 					}
 					break;
 				default:break;

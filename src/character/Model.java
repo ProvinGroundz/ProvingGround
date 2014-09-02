@@ -25,6 +25,7 @@ public class Model implements IActions
 	//other attributes
 	private String name, race, gender, alignment, profession; 
 	private int age, status, level, xp, rank, gold;
+	private int magicResist, commerce, rapport, recovery;
 	
 	//points c=current m=max
 	private int cHit, mHit, cMystic, mMystic, 
