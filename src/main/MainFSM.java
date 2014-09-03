@@ -17,7 +17,7 @@ import character.*;
 class MainFSM {
 	
 	/* points to character being created in CharCreationFSM*/
-	static Model m;
+	static ArrayList<Model> playerParty = new ArrayList<Model>();
 	
 	// stores bonuses by specific type (name)
 	static ArrayList<BonusWrapper> bonuses = new ArrayList<BonusWrapper>();

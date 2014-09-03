@@ -17,19 +17,17 @@ public class Model implements IActions
 	private String charClass;
 	
 	//base stats
-	private int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
+	private int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck,
+			mHit, mMystic, mSkill, mPrayer, mBard;
 	
 	//current stats
 	private int cStrength,cDexterity,cTwitch,cConstitution,cIntelligence,cWisdom,cCommonSense,cSpirituality,cCharisma,cLuck;
-	
+	private int cHit, cMystic, cSkill, cPrayer, cBard;
 	//other attributes
-	private String name, race, gender, alignment, profession; 
 	private int age, status, level, xp, rank, gold;
 	private int magicResist, commerce, rapport, recovery;
 	
-	//points c=current m=max
-	private int cHit, mHit, cMystic, mMystic, 
-	cSkill, mSkill, cPrayer, mPrayer, cBard, mBard;
+	private String name, race, gender, alignment, profession; 
 	
 	//armor class b=base, c=current
 	private int bArmorClass, cArmorClass;
@@ -43,8 +41,8 @@ public class Model implements IActions
 	public Model()
 	{
 		super();
-		bArmorClass=cArmorClass=12;
 		level=1;
+		status = 0;
 	}
 	@Override
 	public void useWeapon() {

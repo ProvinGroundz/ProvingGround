@@ -24,7 +24,13 @@ class CharCreationFSM
 	//constants
 	private final int NUMROLLS=50;
 	private final int SEC_BASE = 3;
-	
+	// Dice info for rolling stats
+	private final int BASE_NUM_DICE = 3;
+	private final int BASE_NUM_SIDES = 3;
+	private final int BASE_ROLL_MOD = 2;
+	private final int SEC_NUM_DICE = 3;
+	private final int SEC_NUM_SIDES = 3;
+	private final int SEC_ROLL_MOD = -1;
 	// validChoices but contains full words instead of letters
 	static ArrayList<String> fullOptions = new ArrayList<String>();
 
@@ -49,7 +55,7 @@ class CharCreationFSM
 	static protected int mHit,mMystic, mSkill, mPrayer, mBard;
 	static protected int magicResist, commerce, rapport, recovery;
 	//armor class b=base, c=current
-	static protected int bArmorClass;
+	static protected int bArmorClass = 12;
 	//number attacks per round
 	static protected int bNAT; 
 	//resurrection modifier
@@ -265,7 +271,7 @@ class CharCreationFSM
 		}
 		
 		if ((prevNumRolls9!=numRolls9) && numRolls9 > 0) {
-			rollBaseStats(3, 3, 2); 
+			rollBaseStats(BASE_NUM_DICE, BASE_NUM_SIDES, BASE_ROLL_MOD); 
 			applyBaseBonuses();
 		}
 		Game.textDescr.setText("Ah.. yer Base Stats shall be. . .");
@@ -304,7 +310,7 @@ class CharCreationFSM
 			break;
 		}
 		Game.textDescr.setText("..and ye shall begin with these. . .");
-		rollSecondaryStats(3, 3, 2, -1);
+		rollSecondaryStats(SEC_NUM_DICE, SEC_NUM_SIDES, SEC_ROLL_MOD);
 		applySecondaryBonuses();
 		
 		String output = String.format("\n\n# of rolls left:%3s\n\n%-15s%-3s%-15s%-3s\n%-15s%-3s\n%-15s%-3s"
@@ -352,10 +358,12 @@ class CharCreationFSM
 						+ "\n%-12s%-10s%-10s"
 						+ "\n%-12s%-10s%-10s"
 						+ "\n%-12s"
-						+ "\n\n%-12s s%-12s"
+						+ "\n\n%-12s %-12s"
 						+ "\n%-12s %-12s"
 						+ "\n%-12s %-15s"
-						+ "\n%-12s %-20s"
+						+ "\n%-12s %-12s"
+						+ "\n%-12s %-12s"
+						+ "\n%-20s"//Rez mod
 						+ "\n\n(S)hare/(H)oard Gold\n(I)tems\n(Esc)ape\n(C)ontinue",
 						name, level, race, profession, 
 						age, gender, gold,
@@ -369,7 +377,9 @@ class CharCreationFSM
 						"Mystic Pts " + mMystic, "Hit Pts " + mHit,
 						"Prayer Pts " + mPrayer, "NAT " + bNAT,
 						"Skill Pts "+ mSkill, "Armor Class "+ bArmorClass,
-						"Bard Pts "+ mBard, "Resurrect Mod " + resModifier+"%");
+						"Bard Pts "+ mBard,"Magic Resist " + magicResist,
+						"Commerce Mod " + commerce, "Rapport Mod " + rapport, 
+						"Resurrect Mod " + resModifier+"%");
 		Game.textDescr.setText(output);
 	}
 	
@@ -482,7 +492,7 @@ class CharCreationFSM
 	}
 	
 	// determines base secondary stats
-	private void rollSecondaryStats(int base, int numOfDice, int numOfSides, int modifier)
+	private void rollSecondaryStats(int numOfDice, int numOfSides, int modifier)
 	{
 		
 		mHit = SEC_BASE+Const.rollDice(numOfDice, numOfSides, modifier);
