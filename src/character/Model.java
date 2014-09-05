@@ -11,7 +11,7 @@ package character;
 public class Model implements IActions
 {
 	//constants
-	private static final int SECONDARY_BASE = 3 + Const.rollDice(3, 2, -1);
+	//private static final int SECONDARY_BASE = 3 + Const.rollDice(3, 2, -1);
 	
 	//class
 	private String charClass;
@@ -25,7 +25,7 @@ public class Model implements IActions
 	private int cHit, cMystic, cSkill, cPrayer, cBard;
 	//other attributes
 	private int age, status, level, xp, rank, gold;
-	private int magicResist, commerce, rapport, recovery;
+	//private int magicResist, commerce, rapport, recovery;
 	
 	private String name, race, gender, alignment, profession; 
 	
@@ -38,7 +38,8 @@ public class Model implements IActions
 	//resurrection modifier
 	private double resModifier;
 	
-	public Model()
+	public Model(int strength,int dexterity,int twitch,int constitution,int intelligence,int wisdom,int commonSense,int spirituality,
+			int charisma,int luck,int mHit,int mMystic,int mSkill,int mPrayer,int mBard, int bArmorClass, int bNAT, double resModifier)
 	{
 		super();
 		level=1;
@@ -50,6 +51,54 @@ public class Model implements IActions
 		
 	}
 
+	public Model(String charClass, int strength, int dexterity, int twitch,
+			int constitution, int intelligence, int wisdom, int commonSense,
+			int spirituality, int charisma, int luck, int mHit, int mMystic,
+			int mSkill, int mPrayer, int mBard, int age, int rank, int gold,
+			String name, String race, String gender, String alignment,
+			String profession, int bArmorClass, int cArmorClass, int bNAT,
+			int cNAT, double resModifier) {
+		super();
+		this.charClass = charClass;
+		this.strength = strength;
+		this.dexterity = dexterity;
+		this.twitch = twitch;
+		this.constitution = constitution;
+		this.intelligence = intelligence;
+		this.wisdom = wisdom;
+		this.commonSense = commonSense;
+		this.spirituality = spirituality;
+		this.charisma = charisma;
+		this.luck = luck;
+		this.mHit = mHit;
+		this.mMystic = mMystic;
+		this.mSkill = mSkill;
+		this.mPrayer = mPrayer;
+		this.mBard = mBard;
+		this.age = age;
+		this.rank = rank;
+		this.gold = gold;
+		this.name = name;
+		this.race = race;
+		this.gender = gender;
+		this.alignment = alignment;
+		this.profession = profession;
+		this.bArmorClass = bArmorClass;
+		this.cArmorClass = cArmorClass;
+		this.bNAT = bNAT;
+		this.cNAT = cNAT;
+		this.resModifier = resModifier;
+		level = 1;
+		status = 0;
+		resetCurrentStats();
+	}
+	// sets the current stats back to their max/base 
+	private void resetCurrentStats() {
+		// TODO Auto-generated method stub
+		cStrength = strength; cDexterity = dexterity; cTwitch = twitch; cConstitution = constitution; cIntelligence = intelligence;
+		cWisdom = wisdom; cCommonSense = commonSense; cSpirituality = spirituality; cCharisma = charisma; cLuck = luck; cHit = mHit;
+		cMystic = mMystic; cSkill = mSkill; cPrayer = mPrayer; cBard = mBard; cArmorClass = bArmorClass;
+	}
 	@Override
 	public void useMagic() {
 		// TODO Auto-generated method stub

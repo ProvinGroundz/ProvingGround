@@ -45,7 +45,7 @@ class CharCreationFSM
 	private int numRolls9 = NUMROLLS;
 	private int prevNumRolls9;
 	private int numRolls10 = NUMROLLS;
-	private int prevNumRolls10;
+	//private int prevNumRolls10 = numRolls10;
 	
 	
 	static protected int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
@@ -55,7 +55,7 @@ class CharCreationFSM
 	static protected int mHit,mMystic, mSkill, mPrayer, mBard;
 	static protected int magicResist, commerce, rapport, recovery;
 	//armor class b=base, c=current
-	static protected int bArmorClass = 12;
+	static protected int bArmorClass;
 	//number attacks per round
 	static protected int bNAT; 
 	//resurrection modifier
@@ -295,7 +295,7 @@ class CharCreationFSM
 		Game.validChoices.add("escape");
 		switch (Game.userInput) {
 		case "k":
-			prevNumRolls10 = numRolls10;
+			//prevNumRolls10 = numRolls10;
 			clear();checkState(Game.state=11);
 			return;
 		case "r":
@@ -310,6 +310,7 @@ class CharCreationFSM
 			break;
 		}
 		Game.textDescr.setText("..and ye shall begin with these. . .");
+		bArmorClass = 12;
 		rollSecondaryStats(SEC_NUM_DICE, SEC_NUM_SIDES, SEC_ROLL_MOD);
 		applySecondaryBonuses();
 		
@@ -330,6 +331,10 @@ class CharCreationFSM
 		
 		switch (Game.userInput) {
 		case "c": 
+			Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
+					charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
+			MainFSM.playerParty.add(m);
+			System.out.print(MainFSM.playerParty.isEmpty());
 			clear();checkState(Game.state=12);
 			return;
 		case "s": 
