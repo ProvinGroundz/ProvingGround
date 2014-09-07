@@ -334,7 +334,6 @@ class CharCreationFSM
 			Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
 					charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
 			MainFSM.playerParty.add(m);
-			System.out.print(MainFSM.playerParty.isEmpty());
 			clear();checkState(Game.state=12);
 			return;
 		case "s": 
