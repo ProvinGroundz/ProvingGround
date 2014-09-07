@@ -60,6 +60,7 @@ class CharCreationFSM
 	static protected int bNAT; 
 	//resurrection modifier
 	static protected double resModifier;
+	static protected int charsCreated = 0;
 	// set up event handlers for user input sections
 	private EventHandler<KeyEvent> keyEventAge = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent ke) {
@@ -333,8 +334,13 @@ class CharCreationFSM
 		case "c": 
 			Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
 					charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
-			MainFSM.playerParty.add(m);
-			clear();checkState(Game.state=12);
+			MainFSM.playerParty.addModel(m);
+			charsCreated++;
+			clear();if(charsCreated < MainFSM.playerParty.maxSize()) {
+				checkState(Game.state=2);
+			}else {
+				checkState(Game.state=12);
+			}
 			return;
 		case "s": 
 			return;

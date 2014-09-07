@@ -7,6 +7,7 @@ public class PlayerParty {
 	//ArrayList to store models
 	private ArrayList<Model> party;
 	int size;
+	private final int MAX_SIZE = 7;
 	public PlayerParty() {
 		// TODO Auto-generated constructor stub
 		party = new ArrayList<Model>();
@@ -18,5 +19,8 @@ public class PlayerParty {
 	}
 	public int getSize(){
 		return size;
+	}
+	public int maxSize() {
+		return MAX_SIZE;
 	}
 }
