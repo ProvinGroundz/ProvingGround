@@ -8,7 +8,10 @@
 
 package main;
 
+import gui.GuiController;
+
 import java.util.ArrayList;
+
 import javafx.application.Platform;
 import character.*;
 
@@ -24,14 +27,13 @@ class MainFSM {
 	
 	// stores bonuses dependent on ranges except AGE
 	static ArrayList<RangeWrapper> rangeBonuses = new ArrayList<RangeWrapper>();
+	
+	
 
 	/* welcome screen -- hard-coded */
 	public void enter() {
 		new JSONReader().readBonusFile();
-//		for(BonusWrapper bw : bonuses)System.out.println(bw);
-//		for(RangeWrapper rw : rangeBonuses)System.out.println(rw);
-		Game.textDescr
-				.setText("Welcome to Proving Grounds!\n(C)ontinue\n(Q)uit");
+		Game.controller.setTextArea("Welcome to Proving Grounds!\n(C)ontinue\n(Q)uit");
 		Game.validChoices.add("c");
 		Game.validChoices.add("q");
 		Game.state = 0;
@@ -50,8 +52,7 @@ class MainFSM {
 
 	/* main selection screen -- hard-coded */
 	private void state1() {
-		Game.textDescr
-				.setText("Please select an action.\n(C)reate a character\n(E)nter the arena\n\n(Esc)ape");
+		Game.controller.setTextArea("Please select an action.\n(C)reate a character\n(E)nter the arena\n\n(Esc)ape");
 		Game.validChoices.add("c");
 		Game.validChoices.add("e");
 		Game.validChoices.add("escape");

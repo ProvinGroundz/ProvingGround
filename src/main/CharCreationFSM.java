@@ -19,7 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import character.*;
 
-class CharCreationFSM
+public class CharCreationFSM
 {
 	//constants
 	private final int NUMROLLS=50;
@@ -38,7 +38,6 @@ class CharCreationFSM
 	TextField txtField;
 	
 	//can be updated independent of state
-	private VBox inputLayout;
 	private Label inputLabel;
 	
 	// number of rolls allowed for states 9 and 10
@@ -51,7 +50,12 @@ class CharCreationFSM
 	static protected int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
 	//other attributes
 	static protected String name, race, gender, alignment, profession, charClass; 
-	static protected int age, status, level, xp, rank, gold;
+	public static int age;
+	protected static int status;
+	protected static int level;
+	protected static int xp;
+	protected static int rank;
+	protected static int gold;
 	static protected int mHit,mMystic, mSkill, mPrayer, mBard;
 	static protected int magicResist, commerce, rapport, recovery;
 	//armor class b=base, c=current
@@ -66,21 +70,20 @@ class CharCreationFSM
 		public void handle(KeyEvent ke) {
 //			System.out.println(ke.getCode()+" state7");
 			if (ke.getCode().equals(KeyCode.ENTER)) {
-				boolean b = Pattern.matches("[0-9]{2}", txtField.getText());
+				boolean b = Pattern.matches("[0-9]{2}", Game.controller.getTxtField());
 				if (b) {
-					int tempAge = Integer.parseInt(txtField.getText());
+					int tempAge = Integer.parseInt(Game.controller.getTxtField());
 					if (tempAge >= 17 && tempAge <= 88) {
-						inputLayout.setVisible(false);
 						age = tempAge;
 						checkState(Game.state=8);
 					}
 				} else {
 				}
-
+				Game.controller.clearTxtField();
 			}
 			if (ke.getCode().equals(KeyCode.ESCAPE)) {
-				inputLayout.setVisible(false);
-				Game.textDescr.setVisible(true);
+				clear();
+				Game.controller.setTxtFieldVisible(false);
 				checkState(Game.state=6);
 				return;
 			}
@@ -93,11 +96,13 @@ class CharCreationFSM
 				// System.out.println("working!!");
 				// regex
 				boolean b = Pattern.matches("[1-9a-zA-Z]{1,14}",
-						txtField.getText());
+						Game.controller.getTxtField());
 				if (b) {
-					name = txtField.getText();
+					name = Game.controller.getTxtField();
 					state9();
 				}
+				Game.controller.setTxtFieldVisible(false);
+				Game.controller.clearTxtField();
 			}
 			if (ke.getCode().equals(KeyCode.ESCAPE)) {
 				Game.state = 7;
@@ -214,27 +219,28 @@ class CharCreationFSM
 	/* input age */
 	private void state7() {
 		Game.state = 7;
-		initLayout();
+		if(Game.state==7)
+		Game.controller.setTextArea("Age:");
+		Game.controller.setTxtFieldVisible(true);
 
-		if(Game.state==8)txtField.setOnKeyReleased(keyEventName);
-		else if(Game.state==7)txtField.setOnKeyReleased(keyEventAge);
+		if(Game.state==8)Game.controller.setOnKeyReleased(keyEventName);
+		else if(Game.state==7)Game.controller.setOnKeyReleased(keyEventAge);
 	}
 
 	/* input name */
 	private void state8() {
 		Game.state = 8;
-		initLayout();
 		
+		Game.controller.setTextArea("Enter name: ");
 
-		if(Game.state==8)txtField.setOnKeyReleased(keyEventName);
-		else if(Game.state==7)txtField.setOnKeyReleased(keyEventAge);
+		if(Game.state==8)Game.controller.setOnKeyReleased(keyEventName);
+		else if(Game.state==7)Game.controller.setOnKeyReleased(keyEventAge);
 	}
 
 	/* reroll state where base stats are chosen */
 	private void state9() {
 		Game.state = 9;
-		inputLayout.setVisible(false);
-		Game.textDescr.setVisible(true);
+		Game.controller.setTextDescrVisible(true);
 
 		// Timeline object that runs on UI thread allowing timed events to occur
 		// remove for now
@@ -263,8 +269,7 @@ class CharCreationFSM
 			return;
 		case "escape":
 			Game.state = 8;
-			Game.textDescr.setVisible(false);
-			inputLayout.setVisible(true);
+			Game.controller.setTextDescrVisible(false);
 			clear();txtField.clear();txtField.requestFocus();numRolls9=NUMROLLS;
 			return;
 		default:
@@ -275,8 +280,8 @@ class CharCreationFSM
 			rollBaseStats(BASE_NUM_DICE, BASE_NUM_SIDES, BASE_ROLL_MOD); 
 			applyBaseBonuses();
 		}
-		Game.textDescr.setText("Ah.. yer Base Stats shall be. . .");
-		String output = String
+		String output = "Ah, " + name + " yer Base Stats shall be. . .";
+		output += String
 				.format("\n\n# of rolls left:%3s\n\n%-12s%-10s%-10s\n%-12s%-10s%-10s\n"
 						+ "%-12s%-10s%-10s\n%-12s%-10s%-10s\n%-12s%-10s\n\n(K)eep\n(R)eroll\n\n(Esc)ape",
 						numRolls9, "Physical", "Mental", "Ineffable",
@@ -285,7 +290,7 @@ class CharCreationFSM
 						"WI " + wisdom, "CH " + charisma, "DX "
 						+ dexterity, "CS " + commonSense,
 						"LK " + luck, "CN " + constitution, "AVG "+ meanBaseStats());
-		Game.textDescr.appendText(output);
+		Game.controller.setTextArea(output);
 	}
 	
 	// secondary stats determined
@@ -310,16 +315,16 @@ class CharCreationFSM
 		default:
 			break;
 		}
-		Game.textDescr.setText("..and ye shall begin with these. . .");
+		String output = "..and ye shall begin with these. . .";
 		bArmorClass = 12;
 		rollSecondaryStats(SEC_NUM_DICE, SEC_NUM_SIDES, SEC_ROLL_MOD);
 		applySecondaryBonuses();
 		
-		String output = String.format("\n\n# of rolls left:%3s\n\n%-15s%-3s%-15s%-3s\n%-15s%-3s\n%-15s%-3s"
+		output += String.format("\n\n# of rolls left:%3s\n\n%-15s%-3s%-15s%-3s\n%-15s%-3s\n%-15s%-3s"
 				+ "\n%-15s%-3s%-15s%-3s\n\n%22s\n\n(K)eep\n(R)eroll\n\n(Esc)ape",numRolls10,
 				"Mystic Points", mMystic,"Hit Points", mHit,"Prayer Points", mPrayer,"Skill Points", mSkill,
 				"Bard Points", mBard,"Gold Pieces", gold,"Armor Class "+ bArmorClass);
-		Game.textDescr.appendText(output);
+		Game.controller.setTextArea(output);
 	}
 	
 	// character summary screen
@@ -351,7 +356,7 @@ class CharCreationFSM
 		case "p":
 			return;
 		case "escape":
-			Game.textDescr.setVisible(true);
+			Game.controller.setTextDescrVisible(true);
 			clear();checkState(Game.state=10);
 			return;
 		default:
@@ -390,7 +395,7 @@ class CharCreationFSM
 						"Bard Pts "+ mBard,"Magic Resist " + magicResist,
 						"Commerce Mod " + commerce, "Rapport Mod " + rapport, 
 						"Resurrect Mod " + resModifier+"%");
-		Game.textDescr.setText(output);
+		Game.controller.setTextArea(output);
 	}
 	
 	// placeholder
@@ -400,20 +405,20 @@ class CharCreationFSM
 		Game.validChoices.add("escape");
 		switch (Game.userInput) {
 		case "escape":
-			Game.textDescr.setVisible(true);
+			Game.controller.setTextDescrVisible(true);
 			clear();checkState(Game.state=11);
 			return;
 		default:
 			break;
 		}
-		Game.textDescr.setText("State12 Placeholder\n\n(Esc)ape");
+		Game.controller.setTextArea("State12 Placeholder\n\n(Esc)ape");
 	}
 
 	/*
 	 * state controller -- checks state field to determine which method/state to
 	 * enter
 	 */
-	void checkState(int... state) {
+	public void checkState(int... state) {
 		/* if no argument passed, initialize array with current state */
 		if (state.length == 0)
 			state = new int[] { Game.state };
@@ -461,28 +466,6 @@ class CharCreationFSM
 		Game.userInput = "";
 		Game.validChoices.clear();
 		fullOptions.clear();
-	}
-	
-	// used for managing textfield/label pair in age/name
-	private void initLayout()
-	{
-		Game.textDescr.setVisible(false);
-		txtField = new TextField();
-		inputLayout = new VBox();
-		// age
-		if(Game.state==7)
-		{
-			inputLabel = new Label("Enter age: ");
-		}
-		// name
-		else
-		{
-			inputLabel = new Label("Enter name: ");
-		}
-		inputLabel.setStyle("-fx-font-size: 20px;");
-		inputLayout.getChildren().addAll(inputLabel, txtField);
-		if(!Game.grid.getChildren().contains(inputLayout))Game.grid.add(inputLayout, 0, 1, 1, 1);
-		txtField.requestFocus();
 	}
 	
 	// determines base stats

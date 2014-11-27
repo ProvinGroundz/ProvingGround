@@ -216,7 +216,7 @@ class JSONReader
 		/* dump all dynamically generated choices to GUI --add "escape" */
 		validChoices.add("escape");
 		Game.validChoices = validChoices;
-		Game.textDescr.setText(output.toString());
+		Game.controller.setTextArea(output.toString());
 		// for(String s :
 		// Game.validChoices)System.out.print(s);System.out.println();
 

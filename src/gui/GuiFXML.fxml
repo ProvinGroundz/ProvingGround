@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GuiController">
+   <children>
+      <BorderPane layoutX="1.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <SplitPane dividerPositions="0.4983221476510067" layoutY="-2.0" prefHeight="202.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <TextArea fx:id="textDescr" layoutX="-4.0" layoutY="-3.0" prefHeight="370.0" prefWidth="509.0" />
+                                    <TextField fx:id="txtField" layoutX="14.0" layoutY="35.0" prefHeight="31.0" prefWidth="149.0" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="399.0">
+                                 <children>
+                                    <ImageView fx:id="img" fitHeight="369.0" fitWidth="512.0" layoutX="48.0" layoutY="22.0" pickOnBounds="true" AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="0.0">
+                                       <image>
+                                          <Image url="@../resources/images/test.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <TableView fx:id="partyTable" layoutX="-2.0" layoutY="-2.0" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn fx:id="nameCol" prefWidth="59.0" text="Name" />
+                            <TableColumn fx:id="lvlCol" prefWidth="46.0" text="Lvl" />
+                              <TableColumn fx:id="acCol" prefWidth="49.0" text="AC" />
+                              <TableColumn fx:id="hpCol" prefWidth="53.0" text="HP" />
+                              <TableColumn fx:id="mpCol" prefWidth="54.0" text="MP" />
+                              <TableColumn fx:id="ppCol" prefWidth="52.0" text="PP" />
+                              <TableColumn fx:id="spCol" prefWidth="47.0" text="SP" />
+                              <TableColumn fx:id="bpCol" prefWidth="58.0" text="BP" />
+                              <TableColumn fx:id="profCol" prefWidth="51.0" text="Prof" />
+                              <TableColumn fx:id="staCol" prefWidth="44.0" text="STA" />
+                              <TableColumn fx:id="goldCol" prefWidth="38.0" text="Gold" />
+                              <TableColumn fx:id="wpnCol" prefWidth="46.0" text="Wpn" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+         <top>
+            <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+              <menus>
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu fx:id="menuAbout" mnemonicParsing="false" text="About">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
