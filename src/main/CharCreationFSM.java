@@ -49,8 +49,13 @@ public class CharCreationFSM
 	
 	static protected int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
 	//other attributes
-	static protected String name, race, gender, alignment, profession, charClass; 
-	public static int age;
+	public String name;
+	protected static String race;
+	protected static String gender;
+	protected static String alignment;
+	protected static String profession;
+	protected static String charClass; 
+	public int age;
 	protected static int status;
 	protected static int level;
 	protected static int xp;
@@ -222,25 +227,19 @@ public class CharCreationFSM
 		if(Game.state==7)
 		Game.controller.setTextArea("Age:");
 		Game.controller.setTxtFieldVisible(true);
-
-		if(Game.state==8)Game.controller.setOnKeyReleased(keyEventName);
-		else if(Game.state==7)Game.controller.setOnKeyReleased(keyEventAge);
+		Game.controller.setButtonsVisible(true);
 	}
 
 	/* input name */
 	private void state8() {
 		Game.state = 8;
-		
 		Game.controller.setTextArea("Enter name: ");
-
-		if(Game.state==8)Game.controller.setOnKeyReleased(keyEventName);
-		else if(Game.state==7)Game.controller.setOnKeyReleased(keyEventAge);
 	}
 
 	/* reroll state where base stats are chosen */
 	private void state9() {
 		Game.state = 9;
-		Game.controller.setTextDescrVisible(true);
+		Game.controller.setButtonsVisible(false);
 
 		// Timeline object that runs on UI thread allowing timed events to occur
 		// remove for now
@@ -268,9 +267,10 @@ public class CharCreationFSM
 			clear();numRolls9--;checkState();
 			return;
 		case "escape":
-			Game.state = 8;
-			Game.controller.setTextDescrVisible(false);
-			clear();txtField.clear();txtField.requestFocus();numRolls9=NUMROLLS;
+			Game.controller.setButtonsVisible(true);
+			Game.controller.setTxtFieldVisible(true);
+			clear();numRolls9=NUMROLLS;
+			checkState(Game.state = 8);
 			return;
 		default:
 			break;
@@ -280,7 +280,7 @@ public class CharCreationFSM
 			rollBaseStats(BASE_NUM_DICE, BASE_NUM_SIDES, BASE_ROLL_MOD); 
 			applyBaseBonuses();
 		}
-		String output = "Ah, " + name + " yer Base Stats shall be. . .";
+		String output = "Ah, " + name + ", yer Base Stats shall be. . .";
 		output += String
 				.format("\n\n# of rolls left:%3s\n\n%-12s%-10s%-10s\n%-12s%-10s%-10s\n"
 						+ "%-12s%-10s%-10s\n%-12s%-10s%-10s\n%-12s%-10s\n\n(K)eep\n(R)eroll\n\n(Esc)ape",
@@ -339,11 +339,13 @@ public class CharCreationFSM
 		case "c": 
 			Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
 					charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
-			MainFSM.playerParty.addModel(m);
+			MainFSM.playerParty.add(m);
 			charsCreated++;
 			clear();if(charsCreated < MainFSM.playerParty.maxSize()) {
 				checkState(Game.state=2);
 			}else {
+				Game.controller.setItems(MainFSM.playerParty);
+				System.out.println(Game.controller.getItems());
 				checkState(Game.state=12);
 			}
 			return;
