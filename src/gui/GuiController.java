@@ -78,6 +78,9 @@ public class GuiController implements Initializable {
 
     @FXML
     private TextArea textDescr;
+    
+    @FXML
+    private TextArea userStatChange;
 
     @FXML
     private MenuBar menuBar;

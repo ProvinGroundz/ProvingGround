@@ -327,10 +327,14 @@ public class CharCreationFSM
 		Game.controller.setTextArea(output);
 	}
 	
+	// user applied bonus
+	private void state11() {
+		
+	}
 	// character summary screen
-	private void state11()
+	private void state12()
 	{
-		Game.state = 11;
+		Game.state = 12;
 		Game.validChoices.add("escape");Game.validChoices.add("c");Game.validChoices.add("s");
 		Game.validChoices.add("h");Game.validChoices.add("i");Game.validChoices.add("p");
 	
@@ -346,7 +350,7 @@ public class CharCreationFSM
 			}else {
 				Game.controller.setItems(MainFSM.playerParty);
 				System.out.println(Game.controller.getItems());
-				checkState(Game.state=12);
+				checkState(Game.state=13);
 			}
 			return;
 		case "s": 
@@ -359,7 +363,7 @@ public class CharCreationFSM
 			return;
 		case "escape":
 			Game.controller.setTextDescrVisible(true);
-			clear();checkState(Game.state=10);
+			clear();checkState(Game.state=11);
 			return;
 		default:
 			break;
@@ -401,14 +405,14 @@ public class CharCreationFSM
 	}
 	
 	// placeholder
-	private void state12()
+	private void state13()
 	{
-		Game.state = 12;
+		Game.state = 13;
 		Game.validChoices.add("escape");
 		switch (Game.userInput) {
 		case "escape":
 			Game.controller.setTextDescrVisible(true);
-			clear();checkState(Game.state=11);
+			clear();checkState(Game.state=12);
 			return;
 		default:
 			break;
