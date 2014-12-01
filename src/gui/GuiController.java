@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -11,6 +12,7 @@ import main.PlayerParty;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
@@ -38,37 +41,11 @@ public class GuiController implements Initializable {
 	private TableView<Model> partyTable;
 
 	@FXML
-	private TableColumn<Model, String> nameCol;
+	private TableColumn<Model, String> nameCol, profCol;
 
 	@FXML
-    private TableColumn<Model, Integer> lvlCol;
-
-    @FXML
-	private TableColumn<Model, Integer> acCol;
-
-	@FXML
-	private TableColumn<Model, Integer> hpCol;
-
-	@FXML
-	private TableColumn<Model, Integer> mpCol;
-	
-    @FXML
-    private TableColumn<Model, Integer> ppCol;
-
-	@FXML
-	private TableColumn<Model, Integer> spCol;
-
-	@FXML
-	private TableColumn<Model, Integer> bpCol;
-
-	@FXML
-	private TableColumn<Model, String> profCol;
-
-	@FXML
-	private TableColumn<Model, Integer> staCol;
-
-	@FXML
-	private TableColumn<Model, Integer> goldCol;
+    private TableColumn<Model, Integer> lvlCol,acCol,hpCol,mpCol,ppCol,spCol,bpCol,
+    									staCol,goldCol;
 
 	@FXML
     private TableColumn<Model, ?> wpnCol;
@@ -78,9 +55,6 @@ public class GuiController implements Initializable {
 
     @FXML
     private TextArea textDescr;
-    
-    @FXML
-    private TextArea userStatChange;
 
     @FXML
     private MenuBar menuBar;
@@ -95,20 +69,33 @@ public class GuiController implements Initializable {
     private TextField txtField;
     
     private StringProperty textProperty;
+    
+    @FXML
+    private ListView<Integer> statNumberList;
+    
+    @FXML
+    private ListView<String> statNameList;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		setupStatLists();
 		textProperty = new SimpleStringProperty();
 		textDescr.setEditable(false);
 		assert textDescr != null : "fx:id=\"textDescr\" was not injected: check your FXML file 'GuiFXML.fxml'.";
         textDescr.textProperty().bind(textProperty);
         txtField.setVisible(false);
-        backButton.setVisible(false);
-		nextButton.setVisible(false);
+        setButtonsVisible(false);
         nameCol.setCellValueFactory(
                 new PropertyValueFactory<Model, String>("name"));
         lvlCol.setCellValueFactory(
                 new PropertyValueFactory<Model, Integer>("level"));
+	}
+
+	private void setupStatLists() {
+		// TODO Auto-generated method stub
+		ObservableList<String> statNames = FXCollections.observableArrayList("Strngth", "Twitch", "Dexterity", "Constitution", "Intelligence",
+										"Wisdom", "Common Sense", "Spirituality", "Charisma", "Luck"," ", "Hit Points", "Gold Pieces");
+		statNameList.setItems(statNames);
 	}
 
 	public ReadOnlyStringProperty textProperty(){
