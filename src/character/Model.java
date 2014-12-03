@@ -17,34 +17,26 @@ public class Model implements IActions
 	private String charClass;
 	
 	//base stats
-	private int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck,
+	private Integer strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck,
 			mHit, mMystic, mSkill, mPrayer, mBard;
 	
 	//current stats
-	private int cStrength,cDexterity,cTwitch,cConstitution,cIntelligence,cWisdom,cCommonSense,cSpirituality,cCharisma,cLuck;
-	private int cHit, cMystic, cSkill, cPrayer, cBard;
+	private Integer cStrength,cDexterity,cTwitch,cConstitution,cIntelligence,cWisdom,cCommonSense,cSpirituality,cCharisma,cLuck;
+	private Integer cHit, cMystic, cSkill, cPrayer, cBard;
 	//other attributes
-	private int age, status, level, xp, rank, gold;
+	private Integer age, status, level, xp, rank, gold;
 	//private int magicResist, commerce, rapport, recovery;
 	
 	private String name, race, gender, alignment, profession; 
 	
 	//armor class b=base, c=current
-	private int bArmorClass, cArmorClass;
+	private Integer bArmorClass, cArmorClass;
 	
 	//number attacks per round
-	private int bNAT, cNAT; 
+	private Integer bNAT, cNAT; 
 	
 	//resurrection modifier
-	private double resModifier;
-	
-	public Model(int strength,int dexterity,int twitch,int constitution,int intelligence,int wisdom,int commonSense,int spirituality,
-			int charisma,int luck,int mHit,int mMystic,int mSkill,int mPrayer,int mBard, int bArmorClass, int bNAT, double resModifier)
-	{
-		super();
-		level=1;
-		status = 0;
-	}
+	private Double resModifier;
 	@Override
 	public void useWeapon() {
 		// TODO Auto-generated method stub
@@ -54,10 +46,10 @@ public class Model implements IActions
 	public Model(String charClass, int strength, int dexterity, int twitch,
 			int constitution, int intelligence, int wisdom, int commonSense,
 			int spirituality, int charisma, int luck, int mHit, int mMystic,
-			int mSkill, int mPrayer, int mBard, int age, int rank, int gold,
+			int mSkill, int mPrayer, int mBard, int age, int gold,
 			String name, String race, String gender, String alignment,
-			String profession, int bArmorClass, int cArmorClass, int bNAT,
-			int cNAT, double resModifier) {
+			String profession, int bArmorClass, int bNAT
+			, double resModifier) {
 		super();
 		this.charClass = charClass;
 		this.strength = strength;
@@ -76,7 +68,6 @@ public class Model implements IActions
 		this.mPrayer = mPrayer;
 		this.mBard = mBard;
 		this.age = age;
-		this.rank = rank;
 		this.gold = gold;
 		this.name = name;
 		this.race = race;
@@ -84,10 +75,10 @@ public class Model implements IActions
 		this.alignment = alignment;
 		this.profession = profession;
 		this.bArmorClass = bArmorClass;
-		this.cArmorClass = cArmorClass;
 		this.bNAT = bNAT;
-		this.cNAT = cNAT;
+		
 		this.resModifier = resModifier;
+		rank = 0;
 		level = 1;
 		status = 0;
 		resetCurrentStats();
@@ -97,7 +88,7 @@ public class Model implements IActions
 		// TODO Auto-generated method stub
 		cStrength = strength; cDexterity = dexterity; cTwitch = twitch; cConstitution = constitution; cIntelligence = intelligence;
 		cWisdom = wisdom; cCommonSense = commonSense; cSpirituality = spirituality; cCharisma = charisma; cLuck = luck; cHit = mHit;
-		cMystic = mMystic; cSkill = mSkill; cPrayer = mPrayer; cBard = mBard; cArmorClass = bArmorClass;
+		cMystic = mMystic; cSkill = mSkill; cPrayer = mPrayer; cBard = mBard; cArmorClass = bArmorClass; cNAT = bNAT;
 	}
 	@Override
 	public void useMagic() {

@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -58,46 +59,59 @@ public class GuiController implements Initializable {
 
     @FXML
     private MenuBar menuBar;
-    
-    @FXML
-    private Button backButton;
 
     @FXML
-    private Button nextButton;
+    private Button backButton, nextButton, stUpButton, stDownButton, twUpButton, twDownButton, dxUpButton, dxDownButton, cnUpButton, cnDownButton,
+    				inUpButton, inDownButton, wiUpButton, wiDownButton, csUpButton, csDownButton, spUpButton, spDownButton, chUpButton, chDownButton,
+    				lkUpButton, lkDownButton, hitUpButton, hitDownButton, goldUpButton, goldDownButton;
 
     @FXML
     private TextField txtField;
-    
-    private StringProperty textProperty;
-    
     @FXML
+    private Label bonusPoints;
+    
+    @FXML 
     private ListView<Integer> statNumberList;
     
     @FXML
     private ListView<String> statNameList;
+    
+    private StringProperty textProperty;
+
+	private int numStClicked, numTwClicked, numDxClicked, numCnClicked, numInClicked, numWiClicked, numCsClicked, numSpClicked, numChClicked, numLkClicked,
+    				numHitClicked, numGoldClicked;
+    ObservableList<Integer> statNumbers;
+   
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		setupStatLists();
 		textProperty = new SimpleStringProperty();
-		textDescr.setEditable(false);
 		assert textDescr != null : "fx:id=\"textDescr\" was not injected: check your FXML file 'GuiFXML.fxml'.";
         textDescr.textProperty().bind(textProperty);
-        txtField.setVisible(false);
-        setButtonsVisible(false);
         nameCol.setCellValueFactory(
                 new PropertyValueFactory<Model, String>("name"));
         lvlCol.setCellValueFactory(
                 new PropertyValueFactory<Model, Integer>("level"));
+        
 	}
 
-	private void setupStatLists() {
-		// TODO Auto-generated method stub
-		ObservableList<String> statNames = FXCollections.observableArrayList("Strngth", "Twitch", "Dexterity", "Constitution", "Intelligence",
-										"Wisdom", "Common Sense", "Spirituality", "Charisma", "Luck"," ", "Hit Points", "Gold Pieces");
+	public void setupStatLists() {
+		statNameList.setVisible(true);
+		statNumberList.setVisible(true);
+		bonusPoints.setVisible(true);
+		bonusPoints.setText("5");
+		stUpButton.setVisible(true); twUpButton.setVisible(true); dxUpButton.setVisible(true); cnUpButton.setVisible(true);
+		inUpButton.setVisible(true); wiUpButton.setVisible(true); csUpButton.setVisible(true); spUpButton.setVisible(true); 
+		chUpButton.setVisible(true); lkUpButton.setVisible(true); hitUpButton.setVisible(true); goldUpButton.setVisible(true);
+		ObservableList<String> statNames = FXCollections.observableArrayList("Strength", "Twitch", "Dexterity", "Constitution", "Intelligence",
+										"Wisdom", "Common Sense", "Spirituality", "Charisma", "Luck", "Hit Points", "Gold Pieces");
 		statNameList.setItems(statNames);
+		statNumbers = FXCollections.observableArrayList(Game.charCreationFSM.strength, Game.charCreationFSM.twitch, Game.charCreationFSM.dexterity, Game.charCreationFSM.constitution, 
+				Game.charCreationFSM.intelligence,Game.charCreationFSM.wisdom, Game.charCreationFSM.commonSense, Game.charCreationFSM.spirituality, Game.charCreationFSM.charisma, 
+				Game.charCreationFSM.luck, Game.charCreationFSM.mHit, Game.charCreationFSM.gold);
+		statNumberList.setItems(statNumbers);
 	}
-
+	
 	public ReadOnlyStringProperty textProperty(){
         return textProperty;
   }
@@ -184,5 +198,140 @@ public class GuiController implements Initializable {
 				Game.charCreationFSM.checkState(Game.state=7);
 				break;
 		}
+	}
+
+	public void stUpClick(ActionEvent e) {
+		numStClicked++;
+		stDownButton.setVisible(true);
+		statNumbers.set(0, statNumbers.get(0) + 1);
+	}
+	
+	public void twUpClick(ActionEvent e) {
+		numTwClicked++;
+		twDownButton.setVisible(true);
+		statNumbers.set(1, statNumbers.get(1) + 1);
+	}
+	
+	public void dxUpClick(ActionEvent e) {
+		numDxClicked++;
+		dxDownButton.setVisible(true);
+		statNumbers.set(2, statNumbers.get(2) + 1);
+	}
+	public void cnUpClick(ActionEvent e) {
+		numCnClicked++;
+		cnDownButton.setVisible(true);
+		statNumbers.set(3, statNumbers.get(3) + 1);
+	}
+	public void inUpClick(ActionEvent e) {
+		numInClicked++;
+		inDownButton.setVisible(true);
+		statNumbers.set(4, statNumbers.get(4) + 1);
+	}
+	public void wiUpClick(ActionEvent e) {
+		numWiClicked++;
+		wiDownButton.setVisible(true);
+		statNumbers.set(5, statNumbers.get(5) + 1);
+	}
+	public void csUpClick(ActionEvent e) {
+		numCsClicked++;
+		csDownButton.setVisible(true);
+		statNumbers.set(6, statNumbers.get(6) + 1);
+	}
+	public void spUpClick(ActionEvent e) {
+		numSpClicked++;
+		spDownButton.setVisible(true);
+		statNumbers.set(7, statNumbers.get(7) + 1);
+	}
+	public void chUpClick(ActionEvent e) {
+		numChClicked++;
+		chDownButton.setVisible(true);
+		statNumbers.set(8, statNumbers.get(8) + 1);
+	}
+	public void lkUpClick(ActionEvent e) {
+		numLkClicked++;
+		lkDownButton.setVisible(true);
+		statNumbers.set(9, statNumbers.get(9) + 1);
+	}
+	public void hitUpClick(ActionEvent e) {
+		numHitClicked++;
+		hitDownButton.setVisible(true);
+		statNumbers.set(10, statNumbers.get(10) + 1);
+	}
+	public void goldUpClick(ActionEvent e) {
+		numGoldClicked++;
+		goldDownButton.setVisible(true);
+		statNumbers.set(11, statNumbers.get(11) + 1);
+	}
+	public void stDownClick(ActionEvent e) {
+		if(--numStClicked == 0) {
+			stDownButton.setVisible(false);
+		}
+		statNumbers.set(0, statNumbers.get(0) - 1);
+	}
+	public void twDownClick(ActionEvent e) {
+		if(--numTwClicked == 0) {
+			twDownButton.setVisible(false);
+		}
+		statNumbers.set(1, statNumbers.get(1) - 1);
+	}
+	public void dxDownClick(ActionEvent e) {
+		if(--numDxClicked == 0) {
+			dxDownButton.setVisible(false);
+		}
+		statNumbers.set(2, statNumbers.get(2) - 1);
+	}
+	public void cnDownClick(ActionEvent e) {
+		if(--numCnClicked == 0) {
+			cnDownButton.setVisible(false);
+		}
+		statNumbers.set(3, statNumbers.get(3) - 1);
+	}
+	public void inDownClick(ActionEvent e) {
+		if(--numInClicked == 0) {
+			inDownButton.setVisible(false);
+		}
+		statNumbers.set(4, statNumbers.get(4) - 1);
+	}
+	public void wiDownClick(ActionEvent e) {
+		if(--numWiClicked == 0) {
+			wiDownButton.setVisible(false);
+		}
+		statNumbers.set(5, statNumbers.get(5) - 1);
+	}
+	public void csDownClick(ActionEvent e) {
+		if(--numCsClicked == 0) {
+			csDownButton.setVisible(false);
+		}
+		statNumbers.set(6, statNumbers.get(6) - 1);
+	}
+	public void spDownClick(ActionEvent e) {
+		if(--numSpClicked == 0) {
+			spDownButton.setVisible(false);
+		}
+		statNumbers.set(7, statNumbers.get(7) - 1);
+	}
+	public void chDownClick(ActionEvent e) {
+		if(--numChClicked == 0) {
+			chDownButton.setVisible(false);
+		}
+		statNumbers.set(8, statNumbers.get(8) - 1);
+	}
+	public void lkDownClick(ActionEvent e) {
+		if(--numLkClicked == 0) {
+			lkDownButton.setVisible(false);
+		}
+		statNumbers.set(9, statNumbers.get(9) - 1);
+	}
+	public void hitDownClick(ActionEvent e) {
+		if(--numHitClicked == 0) {
+			hitDownButton.setVisible(false);
+		}
+		statNumbers.set(10, statNumbers.get(10) - 1);
+	}
+	public void goldDownClick(ActionEvent e) {
+		if(--numGoldClicked == 0) {
+			goldDownButton.setVisible(false);
+		}
+		statNumbers.set(11, statNumbers.get(11) - 1);
 	}
 }

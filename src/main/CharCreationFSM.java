@@ -47,28 +47,32 @@ public class CharCreationFSM
 	//private int prevNumRolls10 = numRolls10;
 	
 	
-	static protected int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
+	public int strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,charisma,luck;
 	//other attributes
 	public String name;
-	protected static String race;
-	protected static String gender;
-	protected static String alignment;
-	protected static String profession;
+	protected String race;
+	protected String gender;
+	protected String alignment;
+	protected String profession;
 	protected static String charClass; 
 	public int age;
-	protected static int status;
-	protected static int level;
-	protected static int xp;
-	protected static int rank;
-	protected static int gold;
-	static protected int mHit,mMystic, mSkill, mPrayer, mBard;
-	static protected int magicResist, commerce, rapport, recovery;
+	protected int status;
+	protected int level;
+	protected int xp;
+	protected int rank;
+	public int gold;
+	public int mHit;
+	protected int mMystic;
+	protected int mSkill;
+	protected int mPrayer;
+	protected int mBard;
+	protected int magicResist, commerce, rapport, recovery;
 	//armor class b=base, c=current
-	static protected int bArmorClass;
+	protected int bArmorClass;
 	//number attacks per round
-	static protected int bNAT; 
+	protected int bNAT; 
 	//resurrection modifier
-	static protected double resModifier;
+	protected double resModifier;
 	static protected int charsCreated = 0;
 	// set up event handlers for user input sections
 	private EventHandler<KeyEvent> keyEventAge = new EventHandler<KeyEvent>() {
@@ -329,7 +333,16 @@ public class CharCreationFSM
 	
 	// user applied bonus
 	private void state11() {
-		
+		Game.state = 11;
+		Game.controller.setTextArea("			Ye receive      Bonus Points for this character:");
+		Model m = new Model(charClass, strength, dexterity, twitch,
+				constitution, intelligence, wisdom, commonSense,
+				spirituality, charisma, luck, mHit, mMystic,
+				mSkill, mPrayer, mBard, age, gold,
+				name, race, gender, alignment,
+				profession, bArmorClass, bNAT,
+				resModifier);
+		Game.controller.setupStatLists();
 	}
 	// character summary screen
 	private void state12()
@@ -341,9 +354,9 @@ public class CharCreationFSM
 		
 		switch (Game.userInput) {
 		case "c": 
-			Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
-					charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
-			MainFSM.playerParty.add(m);
+			//Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
+				//	charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
+			//MainFSM.playerParty.add(m);
 			charsCreated++;
 			clear();if(charsCreated < MainFSM.playerParty.maxSize()) {
 				checkState(Game.state=2);

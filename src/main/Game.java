@@ -39,7 +39,7 @@ public class Game extends Application
 	// necessary FSMs -- add more as they are developed
 	static MainFSM mainFSM = new MainFSM();
 	public static CharCreationFSM charCreationFSM = new CharCreationFSM();
-	static GuiController controller;
+	public static GuiController controller;
 	
 	
 	// GUI elements
