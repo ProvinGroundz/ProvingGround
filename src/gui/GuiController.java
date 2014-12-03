@@ -68,7 +68,7 @@ public class GuiController implements Initializable {
     @FXML
     private TextField txtField;
     @FXML
-    private Label bonusPoints;
+    private Label bonusPointsLabel;
     
     @FXML 
     private ListView<Integer> statNumberList;
@@ -80,6 +80,7 @@ public class GuiController implements Initializable {
 
 	private int numStClicked, numTwClicked, numDxClicked, numCnClicked, numInClicked, numWiClicked, numCsClicked, numSpClicked, numChClicked, numLkClicked,
     				numHitClicked, numGoldClicked;
+	private String stringForLabel = "";
     ObservableList<Integer> statNumbers;
    
 
@@ -98,8 +99,10 @@ public class GuiController implements Initializable {
 	public void setupStatLists() {
 		statNameList.setVisible(true);
 		statNumberList.setVisible(true);
-		bonusPoints.setVisible(true);
-		bonusPoints.setText("5");
+		bonusPointsLabel.setVisible(true);
+		nextButton.setVisible(true);
+		stringForLabel += Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		stUpButton.setVisible(true); twUpButton.setVisible(true); dxUpButton.setVisible(true); cnUpButton.setVisible(true);
 		inUpButton.setVisible(true); wiUpButton.setVisible(true); csUpButton.setVisible(true); spUpButton.setVisible(true); 
 		chUpButton.setVisible(true); lkUpButton.setVisible(true); hitUpButton.setVisible(true); goldUpButton.setVisible(true);
@@ -182,9 +185,38 @@ public class GuiController implements Initializable {
 				Game.charCreationFSM.checkState(Game.state=9);
 			}
 			break;
-						
+		case 11:
+			Game.charCreationFSM.strength = statNumbers.get(0);
+			Game.charCreationFSM.twitch = statNumbers.get(1);
+			Game.charCreationFSM.dexterity = statNumbers.get(2);
+			Game.charCreationFSM.constitution = statNumbers.get(3);
+			Game.charCreationFSM.intelligence = statNumbers.get(4);
+			Game.charCreationFSM.wisdom = statNumbers.get(5);
+			Game.charCreationFSM.commonSense = statNumbers.get(6);
+			Game.charCreationFSM.spirituality = statNumbers.get(7);
+			Game.charCreationFSM.charisma = statNumbers.get(8);
+			Game.charCreationFSM.luck = statNumbers.get(9);
+			Game.charCreationFSM.mHit = statNumbers.get(10);
+			Game.charCreationFSM.gold = statNumbers.get(11);
+			removeStatLists();
+			Game.charCreationFSM.checkState(Game.state=12);
+			break;
 	}
 		}
+	private void removeStatLists() {
+		statNameList.setVisible(false);
+		statNumberList.setVisible(false);
+		bonusPointsLabel.setVisible(false);
+		nextButton.setVisible(false);
+		stUpButton.setVisible(false); twUpButton.setVisible(false); dxUpButton.setVisible(false); cnUpButton.setVisible(false);
+		inUpButton.setVisible(false); wiUpButton.setVisible(false); csUpButton.setVisible(false); spUpButton.setVisible(false); 
+		chUpButton.setVisible(false); lkUpButton.setVisible(false); hitUpButton.setVisible(false); goldUpButton.setVisible(false);
+
+		stDownButton.setVisible(false); twDownButton.setVisible(false); dxDownButton.setVisible(false); cnDownButton.setVisible(false);
+		inDownButton.setVisible(false); wiDownButton.setVisible(false); csDownButton.setVisible(false); spDownButton.setVisible(false); 
+		chDownButton.setVisible(false); lkDownButton.setVisible(false); hitDownButton.setVisible(false); goldDownButton.setVisible(false);
+	}
+
 	public void backClick(ActionEvent e) {
 		switch (Game.state){
 			case 7:
@@ -201,137 +233,233 @@ public class GuiController implements Initializable {
 	}
 
 	public void stUpClick(ActionEvent e) {
-		numStClicked++;
-		stDownButton.setVisible(true);
-		statNumbers.set(0, statNumbers.get(0) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numStClicked++;
+			stDownButton.setVisible(true);
+			statNumbers.set(0, statNumbers.get(0) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	
 	public void twUpClick(ActionEvent e) {
-		numTwClicked++;
-		twDownButton.setVisible(true);
-		statNumbers.set(1, statNumbers.get(1) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numTwClicked++;
+			twDownButton.setVisible(true);
+			statNumbers.set(1, statNumbers.get(1) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	
 	public void dxUpClick(ActionEvent e) {
-		numDxClicked++;
-		dxDownButton.setVisible(true);
-		statNumbers.set(2, statNumbers.get(2) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numDxClicked++;
+			dxDownButton.setVisible(true);
+			statNumbers.set(2, statNumbers.get(2) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void cnUpClick(ActionEvent e) {
-		numCnClicked++;
-		cnDownButton.setVisible(true);
-		statNumbers.set(3, statNumbers.get(3) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numCnClicked++;
+			cnDownButton.setVisible(true);
+			statNumbers.set(3, statNumbers.get(3) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void inUpClick(ActionEvent e) {
-		numInClicked++;
-		inDownButton.setVisible(true);
-		statNumbers.set(4, statNumbers.get(4) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numInClicked++;
+			inDownButton.setVisible(true);
+			statNumbers.set(4, statNumbers.get(4) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void wiUpClick(ActionEvent e) {
-		numWiClicked++;
-		wiDownButton.setVisible(true);
-		statNumbers.set(5, statNumbers.get(5) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numWiClicked++;
+			wiDownButton.setVisible(true);
+			statNumbers.set(5, statNumbers.get(5) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void csUpClick(ActionEvent e) {
-		numCsClicked++;
-		csDownButton.setVisible(true);
-		statNumbers.set(6, statNumbers.get(6) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numCsClicked++;
+			csDownButton.setVisible(true);
+			statNumbers.set(6, statNumbers.get(6) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void spUpClick(ActionEvent e) {
-		numSpClicked++;
-		spDownButton.setVisible(true);
-		statNumbers.set(7, statNumbers.get(7) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numSpClicked++;
+			spDownButton.setVisible(true);
+			statNumbers.set(7, statNumbers.get(7) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void chUpClick(ActionEvent e) {
-		numChClicked++;
-		chDownButton.setVisible(true);
-		statNumbers.set(8, statNumbers.get(8) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numChClicked++;
+			chDownButton.setVisible(true);
+			statNumbers.set(8, statNumbers.get(8) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void lkUpClick(ActionEvent e) {
-		numLkClicked++;
-		lkDownButton.setVisible(true);
-		statNumbers.set(9, statNumbers.get(9) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numLkClicked++;
+			lkDownButton.setVisible(true);
+			statNumbers.set(9, statNumbers.get(9) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void hitUpClick(ActionEvent e) {
-		numHitClicked++;
-		hitDownButton.setVisible(true);
-		statNumbers.set(10, statNumbers.get(10) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numHitClicked++;
+			hitDownButton.setVisible(true);
+			statNumbers.set(10, statNumbers.get(10) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void goldUpClick(ActionEvent e) {
-		numGoldClicked++;
-		goldDownButton.setVisible(true);
-		statNumbers.set(11, statNumbers.get(11) + 1);
+		if(Game.charCreationFSM.bonusPoints != 0) {
+			numGoldClicked++;
+			goldDownButton.setVisible(true);
+			statNumbers.set(11, statNumbers.get(11) + 1);
+			stringForLabel = "";
+			stringForLabel += --Game.charCreationFSM.bonusPoints;
+			bonusPointsLabel.setText(stringForLabel);
+		}
 	}
 	public void stDownClick(ActionEvent e) {
 		if(--numStClicked == 0) {
 			stDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(0, statNumbers.get(0) - 1);
 	}
 	public void twDownClick(ActionEvent e) {
 		if(--numTwClicked == 0) {
 			twDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(1, statNumbers.get(1) - 1);
 	}
 	public void dxDownClick(ActionEvent e) {
 		if(--numDxClicked == 0) {
 			dxDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(2, statNumbers.get(2) - 1);
 	}
 	public void cnDownClick(ActionEvent e) {
 		if(--numCnClicked == 0) {
 			cnDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(3, statNumbers.get(3) - 1);
 	}
 	public void inDownClick(ActionEvent e) {
 		if(--numInClicked == 0) {
 			inDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(4, statNumbers.get(4) - 1);
 	}
 	public void wiDownClick(ActionEvent e) {
 		if(--numWiClicked == 0) {
 			wiDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(5, statNumbers.get(5) - 1);
 	}
 	public void csDownClick(ActionEvent e) {
 		if(--numCsClicked == 0) {
 			csDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(6, statNumbers.get(6) - 1);
 	}
 	public void spDownClick(ActionEvent e) {
 		if(--numSpClicked == 0) {
 			spDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(7, statNumbers.get(7) - 1);
 	}
 	public void chDownClick(ActionEvent e) {
 		if(--numChClicked == 0) {
 			chDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(8, statNumbers.get(8) - 1);
 	}
 	public void lkDownClick(ActionEvent e) {
 		if(--numLkClicked == 0) {
 			lkDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(9, statNumbers.get(9) - 1);
 	}
 	public void hitDownClick(ActionEvent e) {
 		if(--numHitClicked == 0) {
 			hitDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(10, statNumbers.get(10) - 1);
 	}
 	public void goldDownClick(ActionEvent e) {
 		if(--numGoldClicked == 0) {
 			goldDownButton.setVisible(false);
 		}
+		stringForLabel = "";
+		stringForLabel += ++Game.charCreationFSM.bonusPoints;
+		bonusPointsLabel.setText(stringForLabel);
 		statNumbers.set(11, statNumbers.get(11) - 1);
 	}
 }

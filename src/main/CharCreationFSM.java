@@ -31,6 +31,9 @@ public class CharCreationFSM
 	private final int SEC_NUM_DICE = 3;
 	private final int SEC_NUM_SIDES = 3;
 	private final int SEC_ROLL_MOD = -1;
+	private final int BONUS_NUM_DICE = 2;
+	private final int BONUS_NUM_SIDES = 3;
+	private final int BONUS_ROLL_MOD = -1;
 	// validChoices but contains full words instead of letters
 	static ArrayList<String> fullOptions = new ArrayList<String>();
 
@@ -57,11 +60,11 @@ public class CharCreationFSM
 	protected static String charClass; 
 	public int age;
 	protected int status;
-	protected int level;
+	protected int level = 1;
 	protected int xp;
 	protected int rank;
 	public int gold;
-	public int mHit;
+	public int mHit, bonusPoints;
 	protected int mMystic;
 	protected int mSkill;
 	protected int mPrayer;
@@ -335,6 +338,7 @@ public class CharCreationFSM
 	private void state11() {
 		Game.state = 11;
 		Game.controller.setTextArea("			Ye receive      Bonus Points for this character:");
+		bonusPoints = Const.rollDice(BONUS_NUM_DICE,BONUS_NUM_SIDES,BONUS_ROLL_MOD);
 		Model m = new Model(charClass, strength, dexterity, twitch,
 				constitution, intelligence, wisdom, commonSense,
 				spirituality, charisma, luck, mHit, mMystic,
@@ -354,9 +358,14 @@ public class CharCreationFSM
 		
 		switch (Game.userInput) {
 		case "c": 
-			//Model m = new Model(strength,dexterity,twitch,constitution,intelligence,wisdom,commonSense,spirituality,
-				//	charisma,luck,mHit,mMystic,mSkill,mPrayer,mBard,bArmorClass,bNAT,resModifier);
-			//MainFSM.playerParty.add(m);
+			Model m = new Model(charClass, strength, dexterity, twitch,
+			constitution, intelligence, wisdom, commonSense,
+			spirituality, charisma, luck, mHit, mMystic,
+			mSkill, mPrayer, mBard, age, gold,
+			name, race, gender, alignment,
+			profession, bArmorClass, bNAT
+			, resModifier);
+			MainFSM.playerParty.add(m);
 			charsCreated++;
 			clear();if(charsCreated < MainFSM.playerParty.maxSize()) {
 				checkState(Game.state=2);
